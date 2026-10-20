@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QueueLess — Campus Bus Queue Assistant</title>
+<style>
+:root{--navy:#14233b;--ink:#18243a;--muted:#65738a;--line:#e4eaf1;--bg:#f4f7fb;--green:#168568;--greenbg:#e5f6ef;--orange:#d97706;--orangebg:#fff2dc;--blue:#315fe8;--bluebg:#eaf0ff;--red:#c74747}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+.wrap{max-width:1080px;margin:auto;padding:22px 16px 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:white;background:linear-gradient(120deg,#13233b,#21436a);padding:23px;border-radius:22px;box-shadow:0 12px 28px #14233b20}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:#ffffff1b;display:grid;place-items:center;font-size:25px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:10px;font-weight:800;opacity:.76}.top h1{margin:3px 0;font-size:28px;letter-spacing:-.04em}.top p{margin:3px 0 0;color:#d4e1f0;font-size:13px}.demo{background:#fff2dc;color:#8c5100;padding:8px 11px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+h2{font-size:18px;letter-spacing:-.02em;margin:25px 0 12px}.sub{color:var(--muted);font-size:13px;margin:-5px 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 4px 16px #14233b06}.routehead{display:flex;align-items:center;justify-content:space-between;gap:10px}.route{display:flex;align-items:center;gap:11px}.routebadge{height:45px;min-width:54px;border-radius:13px;background:var(--red);color:white;display:grid;place-items:center;font-size:16px;font-weight:900}.routebadge.blue{background:#2871bc}.routetitle{font-size:16px;font-weight:850}.stop{font-size:12px;color:var(--muted);margin-top:3px}.pill{border-radius:999px;padding:6px 9px;font-size:11px;font-weight:800;background:var(--greenbg);color:var(--green);white-space:nowrap}.pill.mid{background:var(--orangebg);color:#9b5a00}.pill.high{background:#ffe8e8;color:#ae3030}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 14px}.metric{background:#f7f9fc;border:1px solid #edf1f6;border-radius:13px;padding:12px}.metric .label{font-size:11px;color:var(--muted);font-weight:650}.metric .value{font-size:26px;font-weight:900;letter-spacing:-.04em;margin-top:3px}.metric .unit{font-size:12px;font-weight:650;color:var(--muted);letter-spacing:0}.barlabel{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px}.bar{height:8px;border-radius:99px;background:#e9eef5;overflow:hidden}.fill{height:100%;border-radius:99px;background:var(--green);width:40%;transition:width .3s}.fill.orange{background:#e8a23c}.fill.red{background:var(--red)}.small{font-size:12px;color:var(--muted);line-height:1.5}.reportline{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.btn{border:0;border-radius:11px;padding:11px 13px;font-size:12px;font-weight:800;cursor:pointer;transition:transform .08s,opacity .2s}.btn:active{transform:scale(.98)}.btn.primary{background:var(--navy);color:white}.btn.light{background:#edf2f8;color:var(--ink)}.btn.green{background:var(--greenbg);color:#087253}.btn.orange{background:var(--orangebg);color:#925500}.btn:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #9db8ff;outline-offset:2px}
+.wide{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.panel-title{font-weight:850;font-size:15px}.timeline{margin-top:14px;display:grid;gap:12px}.sighting{display:flex;gap:11px;align-items:flex-start}.dot{width:10px;height:10px;border-radius:50%;background:var(--blue);margin-top:5px;box-shadow:0 0 0 4px var(--bluebg);flex-shrink:0}.sighting strong{font-size:12px}.sighting p{font-size:12px;color:var(--muted);margin:3px 0 0;line-height:1.45}.tag{font-size:10px;font-weight:800;background:#edf2f8;border-radius:6px;padding:4px 6px;color:#59677a;display:inline-block;margin-top:5px}
+.formrow{display:grid;gap:6px;margin-top:13px}.formrow label{font-size:12px;font-weight:750}.formrow select,.formrow input{width:100%;border:1px solid #dbe3ed;border-radius:10px;padding:11px;background:#fff;color:var(--ink);font:inherit;font-size:13px}.formrow .hint{font-size:11px;color:var(--muted);line-height:1.4}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.notice{border-radius:12px;padding:12px;background:#f3f6fb;font-size:12px;color:#46566d;line-height:1.5;margin-top:12px}.notice strong{color:var(--ink)}.impact{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.impact .card{padding:15px}.impact .num{font-size:23px;font-weight:900;letter-spacing:-.04em}.impact .cap{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.step{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}.step .n{height:26px;width:26px;border-radius:8px;background:var(--bluebg);color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:12px}.step h3{font-size:13px;margin:10px 0 5px}.step p{font-size:12px;color:var(--muted);line-height:1.45;margin:0}.foot{font-size:11px;color:var(--muted);text-align:center;margin-top:22px;line-height:1.6}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#14233b;color:white;padding:12px 16px;border-radius:12px;box-shadow:0 8px 24px #0002;font-size:13px;max-width:90vw;display:none;z-index:5}
+@media(max-width:720px){.wrap{padding:12px 10px 28px}.top{padding:17px;border-radius:17px;align-items:flex-start}.top h1{font-size:23px}.logo{width:42px;height:42px}.demo{font-size:9px;padding:7px}.grid,.wide{grid-template-columns:1fr}.impact .num{font-size:20px}.card{padding:15px}.steps{grid-template-columns:1fr}.metrics{margin-top:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+ <div class="brand"><div class="logo">🚌</div><div><div class="eyebrow">Campus mobility concept</div><h1>QueueLess</h1><p>Three quick taps. No forms. Clearer queue updates.</p></div></div>
+ <div class="demo">● CLICKABLE DEMO</div>
+</header>
+
+<h2>Pick your bus</h2>
+<p class="sub">No forms. Tap one button to share what you see. Reports are demo-only and do not reserve a place in the queue.</p>
+<section class="grid">
+ <article class="card" id="card110">
+  <div class="routehead"><div class="route"><div class="routebadge">110</div><div><div class="routetitle">Dadar</div><div class="stop">LEFT STOP · Outside college gate</div></div></div><span class="pill" id="status110">Awaiting reports</span></div>
+  <div class="metrics">
+   <div class="metric"><div class="label">Latest queue estimate</div><div class="value"><span id="queue110">18</span><span class="unit"> people</span></div></div>
+   <div class="metric"><div class="label">Bus arrival</div><div class="value" style="font-size:20px" id="eta110">Unknown</div></div>
+  </div>
+  <div class="small" id="last110">Demo starting values · not live data</div>
+  <div class="reportline">
+   <button class="btn primary" onclick="quickReport(110,'arrived')">🚌 Bus is here</button>
+   <button class="btn light" onclick="quickReport(110,'long')">👥 Queue is long</button>
+   <button class="btn light" onclick="quickReport(110,'moving')">➡️ Queue is moving</button>
+  </div>
+ </article>
+ <article class="card" id="card117">
+  <div class="routehead"><div class="route"><div class="routebadge blue">117</div><div><div class="routetitle">Wadala</div><div class="stop">RIGHT STOP · Outside college gate</div></div></div><span class="pill mid" id="status117">Awaiting reports</span></div>
+  <div class="metrics">
+   <div class="metric"><div class="label">Latest queue estimate</div><div class="value"><span id="queue117">26</span><span class="unit"> people</span></div></div>
+   <div class="metric"><div class="label">Bus arrival</div><div class="value" style="font-size:20px" id="eta117">Unknown</div></div>
+  </div>
+  <div class="small" id="last117">Demo starting values · not live data</div>
+  <div class="reportline">
+   <button class="btn primary" onclick="quickReport(117,'arrived')">🚌 Bus is here</button>
+   <button class="btn light" onclick="quickReport(117,'long')">👥 Queue is long</button>
+   <button class="btn light" onclick="quickReport(117,'moving')">➡️ Queue is moving</button>
+  </div>
+ </article>
+</section>
+
+<section class="wide" style="margin-top:14px">
+ <article class="card">
+  <div class="panel-title">Recent updates</div>
+  <div class="timeline" id="timeline">
+   <div class="sighting"><div class="dot"></div><div><strong>Prototype ready</strong><p>Tap one button on the correct bus card to add a quick report.</p><span class="tag">DEMO MODE</span></div></div>
+  </div>
+  <div class="notice" id="feedback"><strong>Simple rule:</strong> One tap sends one status. The prototype shows the report time, but it cannot verify whether a student report is true.</div>
+ </article>
+ <article class="card">
+  <div class="panel-title">How the one-tap idea works</div>
+  <div class="timeline">
+   <div class="sighting"><div class="dot"></div><div><strong>1. Choose your bus</strong><p>110 is the left stop; 117 is the right stop.</p></div></div>
+   <div class="sighting"><div class="dot"></div><div><strong>2. Tap what you see</strong><p>Bus arrived, queue long, or queue moving. No typing or dropdowns.</p></div></div>
+   <div class="sighting"><div class="dot"></div><div><strong>3. Keep reports honest</strong><p>Show recent reports as community observations—not verified live tracking. In a real pilot, stale reports expire and repeated spam is limited.</p></div></div>
+  </div>
+  <div class="notice"><strong>Important:</strong> A report is useful information, not a boarding pass. It never gives anyone queue priority.</div>
+ </article>
+</section>
+
+<h2>What makes the concept useful?</h2>
+<section class="impact">
+ <div class="card"><div class="num">Less</div><div class="cap">Unnecessary time standing at the stop, if arrival estimates are reliable enough.</div></div>
+ <div class="card"><div class="num">Shared</div><div class="cap">Students help update bus sightings and queue conditions for everyone.</div></div>
+ <div class="card"><div class="num">Measured</div><div class="cap">Pilot can compare reported wait time before and after, instead of claiming unproven savings.</div></div>
+</section>
+
+<h2>How a real pilot could work</h2>
+<section class="steps">
+ <div class="step"><div class="n">1</div><h3>Start with sightings</h3><p>Use a QR code at the gate. Students report bus sightings and approximate queue size with a timestamp.</p></div>
+ <div class="step"><div class="n">2</div><h3>Build reliable estimates</h3><p>Compare reports with actual arrivals for several days. Add official GPS data if the operator makes it available.</p></div>
+ <div class="step"><div class="n">3</div><h3>Measure the outcome</h3><p>Record how long students physically wait, how accurate estimates are, and whether they miss fewer buses.</p></div>
+</section>
+<div class="foot">QueueLess is a student ideathon prototype. Starting queue counts are illustrative; reports are stored only in this page and reset on reload. It has no live bus GPS or server connection and does not reserve a place in a public boarding queue.</div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const initial={110:{queue:18,eta:"Unknown",last:"Demo starting values · not live data"},117:{queue:26,eta:"Unknown",last:"Demo starting values · not live data"}};
+let data=JSON.parse(JSON.stringify(initial));
+let reports=[];
+function stamp(){return new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function addReport(title,body){
+ reports.unshift({title,body,time:stamp()});reports=reports.slice(0,6);
+ document.getElementById("timeline").innerHTML=reports.map(r=>`<div class="sighting"><div class="dot"></div><div><strong>${escapeHtml(r.title)}</strong><p>${escapeHtml(r.body)}</p><span class="tag">COMMUNITY REPORT · ${escapeHtml(r.time)}</span></div></div>`).join("");
+}
+function quickReport(id,type){
+ const route=id===110?"Dadar (left stop)":"Wadala (right stop)";
+ const actions={
+  arrived:{title:"Bus "+id+" reported here",body:"A student says the bus is at the "+route+". Arrival status is a community report, not verified tracking.",status:"Reported here",eta:"Reported here"},
+  long:{title:"Queue reported long · Bus "+id,body:"A student says the queue for "+route+" is long. Queue size remains an approximate demo value.",status:"Long queue",eta:data[id].eta},
+  moving:{title:"Queue moving · Bus "+id,body:"A student says the queue for "+route+" is moving. This does not guarantee how quickly you will board.",status:"Queue moving",eta:data[id].eta}
+ };
+ const a=actions[type];
+ document.getElementById("status"+id).textContent=a.status;
+ document.getElementById("status"+id).className=type==="long"?"pill high":type==="moving"?"pill":"pill mid";
+ document.getElementById("eta"+id).textContent=a.eta;
+ document.getElementById("last"+id).textContent="Latest one-tap report · "+stamp()+" · unverified";
+ addReport(a.title,a.body);
+ document.getElementById("feedback").innerHTML="<strong>One-tap report added:</strong> "+escapeHtml(a.title)+". The page records the time locally; it does not send data to a server.";
+}
+</script>
+</body>
+</html>
